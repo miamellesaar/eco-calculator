@@ -9,30 +9,29 @@
             --bg-color: #0f0f13;
             --card-bg: #1a1a24;
             --primary-text: #ffffff;
-            --accent: #a855f7; /* фиолетовый */
+            --accent: #a855f7;
             --accent-hover: #9333ea;
             --stat-value: #a855f7;
             --stat-label: #a1a1aa;
+            --border: #2c2c36;
         }
 
         body {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: var(--bg-color);
             color: var(--primary-text);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow-x: hidden;
         }
 
+        /* Header */
         header {
-            width: 100%;
-            max-width: 1200px;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
@@ -40,34 +39,83 @@
             font-weight: 700;
             color: var(--accent);
             letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--stat-label);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border-radius: 8px;
+        }
+
+        .tab-btn.active {
+            color: white;
+            background-color: var(--accent);
         }
 
         .lang-switch {
-            font-size: 0.9rem;
             color: var(--stat-label);
             cursor: pointer;
+            font-size: 0.8rem;
         }
 
-        .lang-switch:hover {
-            color: var(--primary-text);
-        }
-
-        .container {
-            width: 100%;
+        /* Main Content */
+        main {
+            padding: 40px;
             max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Grid Layout */
+        .grid-3 {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+            margin-bottom: 40px;
         }
 
         .card {
             background-color: var(--card-bg);
-            padding: 20px;
+            padding: 25px;
             border-radius: 16px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
         }
 
-        /* Статистика */
+        /* Stats */
         .stat-item {
             margin-bottom: 20px;
             border-left: 4px solid var(--accent);
@@ -75,10 +123,10 @@
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--stat-value);
-            display: block;
+            line-height: 1;
         }
 
         .stat-label {
@@ -86,34 +134,43 @@
             font-size: 0.9rem;
         }
 
-        /* Калькулятор */
-        .calc-group {
+        /* Calculator Form */
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .calc-label {
-            font-size: 0.85rem;
+        .form-label {
+            display: block;
             color: var(--stat-label);
             margin-bottom: 8px;
-            display: block;
+            font-size: 0.9rem;
         }
 
-        input[type="number"], select {
+        select, input[type="number"] {
             width: 100%;
             padding: 12px;
             background-color: #0f0f13;
-            border: 1px solid #333;
+            border: 1px solid var(--border);
             border-radius: 8px;
             color: white;
             box-sizing: border-box;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
+        /* Sliders */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
         }
 
-        button {
+        input[type="range"] {
+            flex-grow: 1;
+            margin: 0 15px;
+            accent-color: var(--accent);
+        }
+
+        button.primary {
             width: 100%;
             padding: 16px;
             background-color: transparent;
@@ -123,70 +180,120 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        button:hover {
+        button.primary:hover {
             background-color: var(--accent);
             color: white;
         }
 
-        .result-display {
-            margin-top: 20px;
+        /* Result Display */
+        .result-box {
+            margin-top: 30px;
             text-align: center;
+            padding: 20px;
+            background: rgba(168, 85, 247, 0.05);
+            border-radius: 16px;
+            border: 1px solid var(--accent);
         }
 
         .result-number {
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: 700;
             color: var(--stat-value);
+            line-height: 1;
         }
 
         .result-unit {
             color: var(--stat-label);
-            font-size: 1rem;
+            font-size: 1.2rem;
         }
 
-        .advice {
-            margin-top: 10px;
-            font-size: 0.9rem;
+        .advice-text {
+            margin-top: 15px;
             color: var(--stat-label);
             font-style: italic;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Аналитика */
+        /* Analysis List */
         .analysis-item {
-            margin-bottom: 15px;
-            padding: 12px;
-            background-color: rgba(168, 85, 247, 0.1);
-            border-radius: 8px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .analysis-percent {
+        .analysis-item:last-child {
+            border-bottom: none;
+        }
+
+        .percent-badge {
             font-weight: 700;
             color: var(--stat-value);
+            min-width: 60px;
+            text-align: right;
         }
 
-        .analysis-desc {
+        /* Base Fabrics Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
             color: var(--stat-label);
+            font-weight: 400;
+        }
+
+        tr:hover {
+            background-color: rgba(255,255,255,0.03);
+        }
+
+        /* Tips Grid */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .tip-title {
+            color: var(--accent);
+            margin-top: 0;
         }
 
         @media (max-width: 768px) {
-            .container {
+            .grid-3 {
                 grid-template-columns: 1fr;
             }
-            
-            .card:first-child, .card:last-child {
-                order: 2;
+            header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
-            
-            .card:nth-child(2) {
-                order: 1;
+            .tabs {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
     </style>
@@ -195,113 +302,266 @@
 
     <header>
         <div class="logo">ECOUNIFORM</div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('calc')">Калькулятор</button>
+            <button class="tab-btn" onclick="switchTab('fabrics')">База тканей</button>
+            <button class="tab-btn" onclick="switchTab('tips')">Советы по уходу</button>
+        </div>
         <div class="lang-switch">RU / EN</div>
     </header>
 
-    <div class="container">
-        <!-- Блок Статистика -->
-        <div class="card">
-            <h3 style="margin-top: 0; color: var(--stat-label); text-transform: uppercase; letter-spacing: 1px;">Статистика</h3>
-            <div class="stat-item">
-                <span class="stat-value" id="avg-lifespan">2.8</span>
-                <span class="stat-label">Года средний срок службы</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-value">73%</span>
-                <span class="stat-label">Экономия ресурсов</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-value">12</span>
-                <span class="stat-label">Единиц одежды в базе</span>
+    <main>
+        <!-- PAGE 1: CALCULATOR -->
+        <div id="page-calc" class="page active">
+            <h2>Калькулятор срока службы</h2>
+            <div class="grid-3">
+                <!-- Stats Left -->
+                <div class="card">
+                    <h3 style="color: var(--stat-label); margin-top:0; text-transform:uppercase; letter-spacing:1px;">Статистика</h3>
+                    <div class="stat-item">
+                        <span class="stat-value" id="avg-life">2.8</span>
+                        <span class="stat-label">Года средний срок службы</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">73%</span>
+                        <span class="stat-label">Экономия ресурсов</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">12</span>
+                        <span class="stat-label">Единиц одежды в базе</span>
+                    </div>
+                </div>
+
+                <!-- Calculator Center -->
+                <div class="card">
+                    <h3 style="color: var(--stat-label); margin-top:0; text-transform:uppercase; letter-spacing:1px;">Параметры вещи</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Тип одежды (влияет на базу)</label>
+                        <select id="clothing-type" onchange="updateBase()">
+                            <option value="24">Пиджак / Костюм (24 мес)</option>
+                            <option value="18">Брюки / Юбка (18 мес)</option>
+                            <option value="12">Рубашка / Блузка (12 мес)</option>
+                            <option value="20">Сарафан / Платье (20 мес)</option>
+                            <option value="16">Свитер / Водолазка (16 мес)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Базовый срок (мес): <span id="base-display">24</span></label>
+                        <input type="number" id="base-months" value="24" readonly style="color: var(--accent);">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Температура стирки (°C)</label>
+                        <select id="wash-temp">
+                            <option value="30">30°C (Идеально)</option>
+                            <option value="40">40°C (Нормально)</option>
+                            <option value="60">60°C (Риск износа)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Частота стирок в месяц</label>
+                        <div class="slider-container">
+                            <span id="wash-val">2</span>
+                            <input type="range" id="wash-count" min="0" max="10" value="2" oninput="document.getElementById('wash-val').innerText = this.value">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Использование пятновыводителя</label>
+                        <select id="stain-remover">
+                            <option value="0">Нет (безопасно)</option>
+                            <option value="-1">Иногда (-1 мес)</option>
+                            <option value="-3">Часто (-3 мес)</option>
+                        </select>
+                    </div>
+
+                    <button class="primary" onclick="calculate()">Рассчитать срок службы</button>
+
+                    <div class="result-box">
+                        <div class="result-number" id="final-result">33</div>
+                        <div class="result-unit">мес.</div>
+                        <div class="advice-text" id="final-advice">Совет: отличный выбор. Суши вещь в тени, в расправленном виде.</div>
+                    </div>
+                </div>
+
+                <!-- Analytics Right -->
+                <div class="card">
+                    <h3 style="color: var(--stat-label); margin-top:0; text-transform:uppercase; letter-spacing:1px;">Аналитика влияния</h3>
+                    <div class="analysis-item">
+                        <span>Бережная стирка (30°C)</span>
+                        <span class="percent-badge">+20%</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span>Обычная стирка (40°C)</span>
+                        <span class="percent-badge">0%</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span>Горячая стирка (60°C+)</span>
+                        <span class="percent-badge">-30%</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span>Частая стирка (>4 раз/мес)</span>
+                        <span class="percent-badge">-25%</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span>Агрессивный пятновыводитель</span>
+                        <span class="percent-badge">-15%</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Блок Калькулятор -->
-        <div class="card">
-            <h3 style="margin-top: 0; color: var(--stat-label); text-transform: uppercase; letter-spacing: 1px;">Калькулятор срока службы</h3>
+        <!-- PAGE 2: FABRICS DATABASE -->
+        <div id="page-fabrics" class="page">
+            <h2>База тканей школьной формы</h2>
+            <p style="color: var(--stat-label);">Разные составы тканей имеют разную устойчивость к износу. Ниже приведены усредненные данные для школьной одежды.</p>
             
-            <div class="calc-group">
-                <label class="calc-label">Базовый срок службы (мес):</label>
-                <input type="number" id="base-months" value="24" min="1">
-            </div>
-
-            <div class="calc-group">
-                <label class="calc-label">Тип ухода:</label>
-                <select id="care-type">
-                    <option value="gentle">Бережный (ручная стирка)</option>
-                    <option value="normal">Обычная стирка</option>
-                    <option value="hot">Горячая стирка</option>
-                </select>
-            </div>
-
-            <div class="calc-group">
-                <label class="calc-label">Загрязнений в месяц:</label>
-                <input type="number" id="stains-per-month" value="1" min="0">
-            </div>
-
-            <button onclick="calculate()">Рассчитать</button>
-
-            <div class="result-display">
-                <div class="result-number" id="result-value">33</div>
-                <div class="result-unit">мес.</div>
-                <div class="advice" id="advice-text">Совет: отличный выбор. Суши вещь в тени, в расправленном виде.</div>
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Тип ткани</th>
+                        <th>Состав</th>
+                        <th>Средний срок службы</th>
+                        <th>Особенности</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Поливискоза</b></td>
+                        <td>65% полиэстер, 35% вискоза</td>
+                        <td>18–24 мес</td>
+                        <td>Дышит, но кашлатится при горячей стирке</td>
+                    </tr>
+                    <tr>
+                        <td><b>Габардин</b></td>
+                        <td>100% полиэстер / смесовый</td>
+                        <td>24–30 мес</td>
+                        <td>Плотная ткань, устойчива к деформации</td>
+                    </tr>
+                    <tr>
+                        <td><b>Футер</b></td>
+                        <td>80% хлопок, 20% полиэстер</td>
+                        <td>12–18 мес</td>
+                        <td>Мягкий, но дает усадку при 60°C</td>
+                    </tr>
+                    <tr>
+                        <td><b>Твил</b></td>
+                        <td>60% хлопок, 40% полиэстер</td>
+                        <td>18–22 мес</td>
+                        <td>Прочный, не мнется, хорошо держит цвет</td>
+                    </tr>
+                    <tr>
+                        <td><b>Кашемир (имитация)</b></td>
+                        <td>Акрил + шерсть</td>
+                        <td>10–14 мес</td>
+                        <td>Требует ручной стирки, быстро появляются катышки</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- Блок Аналитика -->
-        <div class="card">
-            <h3 style="margin-top: 0; color: var(--stat-label); text-transform: uppercase; letter-spacing: 1px;">Аналитика</h3>
-            <div class="analysis-item">
-                <span class="analysis-percent">+40%</span>
-                <span class="analysis-desc">При бережном уходе</span>
-            </div>
-            <div class="analysis-item">
-                <span class="analysis-percent">-15%</span>
-                <span class="analysis-desc">При обычной стирке</span>
-            </div>
-            <div class="analysis-item">
-                <span class="analysis-percent">-40%</span>
-                <span class="analysis-desc">При горячей стирке</span>
+        <!-- PAGE 3: TIPS -->
+        <div id="page-tips" class="page">
+            <h2>Советы по продлению ресурса</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h3 class="tip-title">Сортировка белья</h3>
+                    <p>Стирайте форму отдельно от джинс и полотенец. Грубые ткани трутся о гладкую форму, создавая катышки.</p>
+                </div>
+                <div class="tip-card">
+                    <h3 class="tip-title">Жидкие гели</h3>
+                    <p>Порошок хуже выполаскивается и царапает волокна. Жидкие средства мягче воздействуют на ткань.</p>
+                </div>
+                <div class="tip-card">
+                    <h3 class="tip-title">Сушка в тени</h3>
+                    <p>Прямые солнечные лучи разрушают красители и делают ткань ломкой. Лучше сушить в проветриваемом помещении.</p>
+                </div>
+                <div class="tip-card">
+                    <h3 class="tip-title">Локальный ремонт</h3>
+                    <p>Не ждите, пока дырка станет большой. Зашейте маленькую прореху сразу — это продлит жизнь вещи на полгода.</p>
+                </div>
+                <div class="tip-card">
+                    <h3 class="tip-title">Катышки</h3>
+                    <p>Регулярно удаляйте катышки специальной машинкой. Это не только улучшает вид, но и предотвращает истончение ткани.</p>
+                </div>
+                <div class="tip-card">
+                    <h3 class="tip-title">Хранение</h3>
+                    <p>Вешайте брюки и пиджаки на плечики. Складывание в стопку приводит к заломам, которые сложно разгладить.</p>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        function calculate() {
-            // Получаем данные
-            let base = parseInt(document.getElementById('base-months').value) || 24;
-            const careType = document.getElementById('care-type').value;
-            const stains = parseInt(document.getElementById('stains-per-month').value) || 0;
+        // Переключение вкладок
+        function switchTab(tabName) {
+            // Скрыть все страницы
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            // Убрать активный класс у кнопок
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-            // Логика расчета
+            // Показать нужную
+            document.getElementById('page-' + tabName).classList.add('active');
+            
+            // Найти и активировать кнопку (простой способ через индекс или текст)
+            const buttons = document.querySelectorAll('.tab-btn');
+            if(tabName === 'calc') buttons.classList.add('active');
+            if(tabName === 'fabrics') buttons.classList.add('active');
+            if(tabName === 'tips') buttons.classList.add('active');
+        }
+
+        // Обновление базы при смене типа одежды
+        function updateBase() {
+            const select = document.getElementById('clothing-type');
+            const baseInput = document.getElementById('base-months');
+            const baseDisplay = document.getElementById('base-display');
+            const value = select.value;
+            
+            baseInput.value = value;
+            baseDisplay.innerText = value;
+        }
+
+        // Логика расчета
+        function calculate() {
+            let base = parseInt(document.getElementById('base-months').value);
+            const temp = parseInt(document.getElementById('wash-temp').value);
+            const washes = parseInt(document.getElementById('wash-count').value);
+            const remover = parseInt(document.getElementById('stain-remover').value);
+
             let result = base;
 
-            // Коэффициенты из блока "Аналитика"
-            if (careType === 'gentle') {
-                result = Math.round(result * 1.4); // +40%
-            } else if (careType === 'normal') {
-                result = Math.round(result * 0.85); // -15%
-            } else if (careType === 'hot') {
-                result = Math.round(result * 0.6); // -40%
+            // 1. Влияние температуры
+            if (temp === 30) {
+                result = Math.round(result * 1.2); // +20%
+            } else if (temp === 60) {
+                result = Math.round(result * 0.7); // -30%
             }
 
-            // Штраф за загрязнения (упрощенно: -1 месяц за каждые 2 загрязнения)
-            result -= Math.floor(stains / 2);
+            // 2. Влияние частоты стирок
+            if (washes > 4) {
+                result = Math.round(result * 0.75); // -25%
+            }
+
+            // 3. Влияние пятновыводителя
+            result += remover;
 
             // Защита от отрицательных значений
             if (result < 1) result = 1;
 
             // Вывод результата
-            document.getElementById('result-value').innerText = result;
+            document.getElementById('final-result').innerText = result;
 
             // Генерация совета
-            const adviceElement = document.getElementById('advice-text');
-            if (careType === 'gentle') {
-                adviceElement.innerText = "Совет: отличный выбор. Суши вещь в тени, в расправленном виде.";
-            } else if (careType === 'hot') {
-                adviceElement.innerText = "Совет: горячая стирка сильно сокращает жизнь ткани. Попробуйте снизить температуру до 30°C.";
+            const adviceEl = document.getElementById('final-advice');
+            if (temp === 60 || washes > 4) {
+                adviceEl.innerText = "Внимание: выбранный режим ухода сильно сокращает срок службы ткани. Рекомендуем снизить температуру до 30°C и стирать реже.";
+            } else if (temp === 30 && washes <= 2) {
+                adviceEl.innerText = "Отличный выбор! Такой режим ухода максимально сохраняет структуру ткани и цвет.";
             } else {
-                adviceElement.innerText = "Совет: старайтесь стирать реже и использовать жидкие средства для сохранения цвета.";
+                adviceEl.innerText = "Хороший режим. Для лучшего результата попробуйте использовать жидкие средства вместо порошка.";
             }
         }
     </script>
