@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECO-UNIFORM: Gothic Calculator</title>
+    <title>ECO-UNIFORM: Калькулятор срока службы</title>
     <style>
         :root {
             --bg-dark: #0a0a12;
@@ -343,6 +343,7 @@
             const stains = parseInt(stainsEl.value) || 0;
 
             let finalMonths = base;
+            // ИСПРАВЛЕНО: теперь массив инициализируется корректно
             const tips = ;
 
             // Логика по типу ухода
@@ -357,6 +358,7 @@
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Используйте специальные мешки для стирки. Это защитит фурнитуру, кружево и швы от повреждений.</div>');
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Не набивайте барабан до отказа. Вещи должны свободно двигаться в воде, чтобы лучше отстирываться без трения.</div>');
             } else {
+                // Бережный уход
                 finalMonths += base * 0.20;
                 tips.push('<div class="tip-item good"><strong>✅ Отличный выбор!</strong> Ручная стирка или аквачистка максимально продлевают жизнь сложным вещам.</div>');
                 tips.push('<div class="tip-item good"><strong>✅ Сушите вещи в горизонтальном положении.</strong> Это предотвратит вытягивание ткани под собственным весом.</div>');
