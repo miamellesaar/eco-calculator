@@ -3,165 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Calculator: Срок службы формы</title>
+    <title>ECO-UNIFORM: Калькулятор срока службы</title>
     <style>
         :root {
-            --bg-color: #F0F2F5;            /* Очень светлый фон */
-            --card-bg: #FFFFFF;             /* Белая карточка */
-            --border-color: #C2C9CD;        /* Цвет рамок (серый) */
-            --text-main: #333333;           /* Тёмный текст */
-            --text-muted: #7A828D;          /* Серый текст */
-            --accent-color: #6C5B9F;        /* Фиолетовый акцент (как в скринах) */
-            --accent-hover: #52457A;        /* Темнее при наведении */
-            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --bg-dark: #121212;
+            --panel-dark: #1E1E26;
+            --panel-mid: #2A2A35;
+            --accent-glow: #6C5B9F; /* Фиолетовый акцент */
+            --accent-border: #8A7CCD;
+            --text-main: #E0E0E0;
+            --text-muted: #A0A0A0;
+            --input-bg: #2A2A35;
+            --border-thin: #333333;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 480px;
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
+        /* Верхняя панель */
+        header {
+            background: rgba(20, 20, 25, 0.95);
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border-thin);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* Декоративные линии и разделители в стиле новеллы */
-        .divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-            margin: 25px 0;
-            position: relative;
-        }
-        
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: 0;
-            right: 0;
-            height: 8px;
-            background: var(--bg-color);
-            clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 100%, 0 50%);
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--accent-color);
-            margin-top: 0;
-            font-size: 1.6rem;
-            line-height: 1.2;
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-main);
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        h1 span {
-            display: block;
+        .logo span { color: var(--accent-glow); }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
             font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover { color: var(--text-main); }
+
+        /* Основной контейнер (сетка как на макете) */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr 250px;
+            gap: 20px;
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Боковые панели (заготовки под будущий контент) */
+        .sidebar {
+            background: var(--panel-dark);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-thin);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar h3 {
+            color: var(--accent-glow);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin: 0;
+            border-bottom: 1px solid var(--border-thin);
+            padding-bottom: 10px;
+        }
+
+        .stat-card {
+            background: var(--panel-mid);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-border);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
             color: var(--text-muted);
             margin-top: 5px;
-            font-weight: normal;
         }
 
-        .description {
-            text-align: center;
+        /* Центральная область калькулятора */
+        .main-content {
+            background: var(--panel-dark);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-thin);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .main-title {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
             color: var(--text-muted);
-            margin-bottom: 30px;
             font-size: 0.9rem;
-            line-height: 1.5;
+            margin-bottom: 25px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        /* Поля ввода в стиле HUD */
+        .form-group { margin-bottom: 15px; }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-main);
-            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         input, select {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-thin);
+            border-radius: 8px;
+            color: var(--text-main);
             font-size: 1rem;
             box-sizing: border-box;
-            background: #FAFAFA;
-            color: var(--text-main);
             transition: all 0.3s ease;
         }
 
         input:focus, select:focus {
             outline: none;
-            border-color: var(--accent-color);
-            background: #FFFFFF;
-            box-shadow: 0 0 0 4px rgba(108, 91, 159, 0.1);
+            border-color: var(--accent-border);
+            box-shadow: 0 0 10px rgba(108, 91, 159, 0.2);
+            background: #333;
         }
 
+        /* Кнопка с футуристичным эффектом */
         button {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--accent-border);
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--accent-glow);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
+            border-color: var(--text-main);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(108, 91, 159, 0.4);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
+        button:hover::before { opacity: 1; }
 
+        /* Блок результата */
         .result-box {
-            margin-top: 30px;
+            background: var(--panel-mid);
             padding: 20px;
-            background: #F9F9FB;
-            border-radius: 16px;
+            border-radius: 12px;
+            border: 1px dashed var(--border-thin);
             text-align: center;
             display: none;
-            border: 1px dashed var(--border-color);
-        }
-
-        .result-title {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            margin-top: 10px;
         }
 
         .result-value {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            color: var(--accent-color);
+            color: var(--accent-glow);
             line-height: 1;
         }
 
@@ -172,55 +229,94 @@
             font-weight: normal;
         }
 
-        .result-note {
-            margin-top: 10px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 20px; }
-            .result-value { font-size: 2.2rem; }
+        /* Адаптив для мобильных */
+        @media (max-width: 900px) {
+            .dashboard { grid-template-columns: 1fr; }
+            .sidebar { display: none; } /* Скрываем боковые панели на телефоне для чистоты */
+            .main-content { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Eco-Calculator<span>Расчёт ресурса вещи</span></h1>
-        <p class="description">
-            Оцени влияние ухода на срок службы школьной формы. 
-            Бережное отношение продлевает жизнь вещам.
-        </p>
+    <header>
+        <div class="logo">ECO<span>UNIFORM</span></div>
+        <nav class="nav-links">
+            <a href="#">Главная</a>
+            <a href="#">Калькулятор</a>
+            <a href="#">О проекте</a>
+            <a href="#">Контакты</a>
+        </nav>
+    </header>
 
-        <div class="divider"></div>
+    <div class="dashboard">
+        <!-- Левая панель (заготовка под статистику или меню) -->
+        <aside class="sidebar">
+            <h3>Статистика проекта</h3>
+            <div class="stat-card">
+                <div class="stat-value">2.8</div>
+                <div class="stat-label">Года средний срок службы</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">73%</div>
+                <div class="stat-label">Экономия ресурсов</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Единиц одежды в базе</div>
+            </div>
+        </aside>
 
-        <div class="form-group">
-            <label for="baseMonths">Базовый срок (мес):</label>
-            <input type="number" id="baseMonths" value="24" min="1" placeholder="Например, 24">
-        </div>
+        <!-- Центральная область (калькулятор) -->
+        <main class="main-content">
+            <h2 class="main-title">Калькулятор срока службы</h2>
+            <p class="subtitle">Расчёт срока службы вещей и варианты продления ресурса. Введите параметры для анализа износа.</p>
 
-        <div class="form-group">
-            <label for="washType">Тип ухода:</label>
-            <select id="washType">
-                <option value="gentle">Бережный уход (ручная стирка)</option>
-                <option value="normal">Обычный уход (машинная стирка)</option>
-                <option value="harsh">Жёсткий уход (горячая стирка)</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="baseMonths">Базовый срок службы (мес):</label>
+                <input type="number" id="baseMonths" value="24" min="1" placeholder="Например, 24">
+            </div>
 
-        <div class="form-group">
-            <label for="stains">Загрязнения в месяц:</label>
-            <input type="number" id="stains" value="1" min="0" placeholder="Количество пятен">
-        </div>
+            <div class="form-group">
+                <label for="washType">Тип ухода за вещью:</label>
+                <select id="washType">
+                    <option value="gentle">Бережный уход (ручная стирка, сушка в тени)</option>
+                    <option value="normal">Обычный уход (машинная стирка 30-40°C)</option>
+                    <option value="harsh">Жёсткий уход (горячая стирка >60°C, отжим на макс.)</option>
+                </select>
+            </div>
 
-        <button onclick="calculate()">Рассчитать срок службы</button>
+            <div class="form-group">
+                <label for="stains">Количество сильных загрязнений в месяц:</label>
+                <input type="number" id="stains" value="1" min="0" placeholder="Сколько пятен в месяц">
+            </div>
 
-        <div class="result-box" id="resultBox">
-            <p class="result-title">Ожидаемый срок службы</p>
-            <div class="result-value"><span id="resultValue">0</span><span class="result-unit"> мес.</span></div>
-            <p class="result-note">Результат приблизительный. Данные основаны на модели износа ткани.</p>
-        </div>
+            <button onclick="calculate()">Рассчитать срок службы</button>
+
+            <div class="result-box" id="resultBox">
+                <div class="result-value"><span id="resultValue">0</span><span class="result-unit"> мес.</span></div>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted);">
+                    Результат приблизительный. Данные основаны на модели износа ткани.
+                </p>
+            </div>
+        </main>
+
+        <!-- Правая панель (заготовка под будущий контент: фото одежды, тренды и т.д.) -->
+        <aside class="sidebar">
+            <h3>Аналитика</h3>
+            <div class="stat-card">
+                <div class="stat-value">+40%</div>
+                <div class="stat-label">При бережном уходе</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">-15%</div>
+                <div class="stat-label">При обычной стирке</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">-40%</div>
+                <div class="stat-label">При горячей стирке</div>
+            </div>
+        </aside>
     </div>
 
     <script>
@@ -232,14 +328,17 @@
             let penalty = 0;
             let bonus = 0;
 
+            // Штрафы за тип стирки
             if (washType === 'harsh') {
                 penalty = baseMonths * 0.40; 
             } else if (washType === 'normal') {
                 penalty = baseMonths * 0.15; 
             }
 
+            // Штраф за загрязнения (-1 неделя ~ -0.25 месяца за каждое пятно)
             penalty += stains * 0.25;
 
+            // Бонус за бережный уход (+20%)
             if (washType === 'gentle') {
                 bonus = baseMonths * 0.20;
             }
@@ -248,6 +347,7 @@
 
             if (finalMonths < 1) finalMonths = 1;
 
+            // Вывод результата
             const resultBox = document.getElementById('resultBox');
             const resultValue = document.getElementById('resultValue');
             
