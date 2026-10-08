@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECO-UNIFORM: Gothic Calculator</title>
     <style>
-        /* --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И ФОН --- */
         :root {
             --bg-dark: #0a0a12;
             --panel-bg: rgba(22, 22, 32, 0.92);
             --panel-border: rgba(255, 255, 255, 0.1);
-            --accent-primary: #c77dff; /* Основной фиолетовый */
-            --accent-secondary: #8a4cb8; /* Темный фиолетовый для рамок */
+            --accent-primary: #c77dff;
+            --accent-secondary: #8a4cb8;
             --text-main: #ffffff;
             --text-muted: #a0a0b0;
             --stat-bg: rgba(255, 255, 255, 0.03);
@@ -23,7 +22,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-main);
             background-color: var(--bg-dark);
-            /* --- АТМОСФЕРНЫЙ ФОН (ТЕКСТУРА) --- */
             background-image: 
                 linear-gradient(rgba(5, 5, 10, 0.85), rgba(5, 5, 10, 0.95)),
                 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%231a1a2e' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm10-30v-2h-3v2h3zm-17 0v-2H2v2h3zM14 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm-8 0c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM3 3v-6h-3v6h3zm18-6v-6h-3v6h3zM3 21v6H0v-6h3zm21 0v6h-3v-6h3z'/%3E%3C/svg%3E");
@@ -33,7 +31,6 @@
             overflow-x: hidden;
         }
 
-        /* Затемнение поверх фона для читаемости текста */
         .bg-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -50,7 +47,6 @@
             padding: 20px;
         }
 
-        /* --- ШАПКА --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -88,7 +84,6 @@
             background: rgba(199, 125, 255, 0.05);
         }
 
-        /* --- СЕТКА ИНТЕРФЕЙСА --- */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
@@ -105,7 +100,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* Декоративные уголки HUD (прицелы) */
         .panel::before, .panel::after {
             content: '';
             position: absolute;
@@ -119,7 +113,6 @@
         h2 { margin-top: 0; color: var(--text-main); text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; }
         h3 { color: var(--accent-primary); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 15px; }
 
-        /* --- СТАТИСТИКА (ЛЕВАЯ ПАНЕЛЬ) --- */
         .stat-card {
             background: var(--stat-bg);
             padding: 15px;
@@ -130,7 +123,6 @@
         .stat-val { font-size: 2.2rem; font-weight: bold; color: var(--accent-primary); display: block; line-height: 1; }
         .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
 
-        /* --- КАЛЬКУЛЯТОР (ЦЕНТР) --- */
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; }
         
@@ -171,12 +163,11 @@
             transform: scale(1.02);
         }
 
-        /* --- РЕЗУЛЬТАТ И СОВЕТЫ --- */
         #result-area {
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px dashed var(--panel-border);
-            display: none; /* Скрыт по умолчанию */
+            display: none;
             animation: fadeIn 0.5s ease-out;
         }
 
@@ -185,9 +176,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .result-display {
-            text-align: center;
-        }
+        .result-display { text-align: center; }
         .result-number {
             font-size: 4rem;
             font-weight: 900;
@@ -225,7 +214,6 @@
         .tip-item.good { border-left-color: #4ade80; color: #d1fae5; }
         .tip-item.bad { border-left-color: #f87171; color: #fca5a5; }
 
-        /* --- АНАЛИТИКА (ПРАВАЯ ПАНЕЛЬ) --- */
         .analysis-card {
             background: var(--stat-bg);
             padding: 15px;
@@ -233,16 +221,11 @@
             border-radius: 8px;
             border-left: 3px solid var(--accent-primary);
         }
-        .analysis-val {
-            font-size: 1.8rem;
-            font-weight: bold;
-            display: block;
-        }
+        .analysis-val { font-size: 1.8rem; font-weight: bold; display: block; }
         .analysis-plus { color: #4ade80; }
         .analysis-minus { color: #f87171; }
         .analysis-label { font-size: 0.8rem; color: var(--text-muted); }
 
-        /* Адаптив для мобильных */
         @media (max-width: 900px) {
             .dashboard-grid { grid-template-columns: 1fr; }
             .panel { border-radius: 0; border: none; padding: 20px; box-shadow: none; }
@@ -253,10 +236,7 @@
     </style>
 </head>
 <body>
-
-    <!-- Фон и затемнение -->
     <div class="bg-overlay"></div>
-
     <div class="container">
         <header>
             <div class="logo">ECO<span>UNIFORM</span></div>
@@ -269,8 +249,6 @@
         </header>
 
         <div class="dashboard-grid">
-            
-            <!-- ЛЕВАЯ ПАНЕЛЬ: СТАТИСТИКА -->
             <aside class="panel">
                 <h3>Статистика проекта</h3>
                 <div class="stat-card">
@@ -287,7 +265,6 @@
                 </div>
             </aside>
 
-            <!-- ЦЕНТР: КАЛЬКУЛЯТОР -->
             <main class="panel">
                 <h2>Калькулятор срока службы</h2>
                 <p style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;">
@@ -315,7 +292,6 @@
 
                 <button class="btn-calc" onclick="calculateResult()">Рассчитать срок службы</button>
 
-                <!-- БЛОК РЕЗУЛЬТАТА И СОВЕТОВ (ПОЯВЛЯЕТСЯ ПОСЛЕ КЛИКА) -->
                 <div id="result-area">
                     <div class="result-display">
                         <span class="result-number"><span id="resVal">0</span></span>
@@ -334,10 +310,8 @@
                 </div>
             </main>
 
-            <!-- ПРАВАЯ ПАНЕЛЬ: АНАЛИТИКА -->
             <aside class="panel">
                 <h3>Аналитика износа</h3>
-                
                 <div class="analysis-card">
                     <span class="analysis-val analysis-plus">+40%</span>
                     <span class="analysis-label">При бережном уходе</span>
@@ -360,61 +334,51 @@
 
     <script>
         function calculateResult() {
-            // 1. Получаем данные из полей
-            const base = parseFloat(document.getElementById('baseMonths').value);
-            const wash = document.getElementById('washType').value;
-            const stains = parseInt(document.getElementById('stains').value) || 0;
+            const baseEl = document.getElementById('baseMonths');
+            const washEl = document.getElementById('washType');
+            const stainsEl = document.getElementById('stains');
+
+            const base = parseFloat(baseEl.value) || 24;
+            const wash = washEl.value;
+            const stains = parseInt(stainsEl.value) || 0;
 
             let finalMonths = base;
-            let tips = ;
+            const tips = ;
 
-            // 2. Логика расчета в зависимости от ухода
+            // Логика по типу ухода
             if (wash === 'harsh') {
-                // Жёсткий уход: -40%
                 finalMonths -= base * 0.40;
                 tips.push('<div class="tip-item bad"><strong>⚠️ Горячая стирка разрушает волокна!</strong> Для готических тканей (бархат, кружево) это критично. Ткань теряет структуру и цвет.</div>');
                 tips.push('<div class="tip-item bad"><strong>❌ Избегайте максимального отжима.</strong> Это деформирует вещь и создает заломы, которые сложно убрать.</div>');
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Если вещь сильно загрязнена, используйте предварительное замачивание в прохладной воде вместо повышения температуры.</div>');
-            } 
-            else if (wash === 'normal') {
-                // Обычный уход: -15%
+            } else if (wash === 'normal') {
                 finalMonths -= base * 0.15;
                 tips.push('<div class="tip-item"><strong>⚠️ Машинная стирка допустима,</strong> но старайтесь выбирать деликатный режим или режим "шерсть/шелк".</div>');
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Используйте специальные мешки для стирки. Это защитит фурнитуру, кружево и швы от повреждений.</div>');
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Не набивайте барабан до отказа. Вещи должны свободно двигаться в воде, чтобы лучше отстирываться без трения.</div>');
-            } 
-            else {
-                // Бережный уход: +20%
+            } else {
                 finalMonths += base * 0.20;
                 tips.push('<div class="tip-item good"><strong>✅ Отличный выбор!</strong> Ручная стирка или аквачистка максимально продлевают жизнь сложным вещам.</div>');
                 tips.push('<div class="tip-item good"><strong>✅ Сушите вещи в горизонтальном положении.</strong> Это предотвратит вытягивание ткани под собственным весом.</div>');
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Храните готическую одежду в чехлах из дышащей ткани, чтобы защитить от пыли и моли.</div>');
             }
 
-            // 3. Штраф за пятна
+            // Штраф за пятна
             if (stains > 2) {
-                // Много пятен: сильный штраф
                 finalMonths -= (stains * 0.15) * base;
                 tips.push('<div class="tip-item bad"><strong>⚠️ Частые сильные загрязнения ускоряют износ.</strong> Агрессивные пятновыводители и трение истончают ткань.</div>');
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Держите под рукой сухой пятновыводитель для экстренной обработки до того, как пятно въестся в волокна.</div>');
-            } 
-            else if (stains === 1 || stains === 2) {
-                // Пара пятен: небольшой штраф
+            } else if (stains === 1 || stains === 2) {
                 finalMonths -= (stains * 0.05) * base;
                 tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Обрабатывайте пятна сразу, не давая им въедаться в ткань. Чем дольше пятно, тем агрессивнее придется действовать.</div>');
             }
 
-            // Защита от отрицательных значений
             if (finalMonths < 1) finalMonths = 1;
 
-            // 4. Вывод результата
             document.getElementById('resVal').innerText = Math.floor(finalMonths);
             document.getElementById('result-area').style.display = 'block';
-            
-            // Плавная прокрутка к результату
             document.getElementById('result-area').scrollIntoView({ behavior: 'smooth' });
 
-            // 5. Вывод советов в список
             const tipsContainer = document.getElementById('tips-container');
             tipsContainer.innerHTML = '';
             tips.forEach(tip => {
