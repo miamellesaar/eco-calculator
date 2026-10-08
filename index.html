@@ -10,7 +10,6 @@
             --panel-bg: rgba(22, 22, 32, 0.92);
             --panel-border: rgba(255, 255, 255, 0.1);
             --accent-primary: #c77dff;
-            --accent-secondary: #8a4cb8;
             --text-main: #ffffff;
             --text-muted: #a0a0b0;
             --stat-bg: rgba(255, 255, 255, 0.03);
@@ -22,48 +21,24 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-main);
             background-color: var(--bg-dark);
-            background-image: 
-                linear-gradient(rgba(5, 5, 10, 0.85), rgba(5, 5, 10, 0.95)),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%231a1a2e' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm10-30v-2h-3v2h3zm-17 0v-2H2v2h3zM14 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm-8 0c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM3 3v-6h-3v6h3zm18-6v-6h-3v6h3zM3 21v6H0v-6h3zm21 0v6h-3v-6h3z'/%3E%3C/svg%3E");
-            background-size: cover;
-            background-attachment: fixed;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .bg-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(10, 10, 18, 0.95) 0%, rgba(5, 5, 10, 0.98) 100%);
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 20px;
             border-bottom: 1px solid var(--panel-border);
-            margin-bottom: 30px;
+            background: var(--panel-bg);
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             color: var(--text-main);
-            text-shadow: 0 0 20px rgba(199, 125, 255, 0.3);
-            position: relative;
         }
         .logo span { color: var(--accent-primary); }
 
@@ -71,47 +46,31 @@
             background: transparent;
             border: 1px solid var(--panel-border);
             color: var(--text-muted);
-            padding: 10px 20px;
-            margin-left: 10px;
+            padding: 8px 16px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            transition: all 0.3s ease;
+            margin-left: 10px;
         }
-        nav button:hover, nav button.active {
-            border-color: var(--accent-primary);
-            color: var(--text-main);
-            background: rgba(199, 125, 255, 0.05);
-        }
+        nav button:hover { border-color: var(--accent-primary); color: var(--text-main); }
 
         .dashboard-grid {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
-            gap: 25px;
+            gap: 20px;
+            padding: 30px;
         }
 
         .panel {
             background: var(--panel-bg);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--panel-border);
             padding: 25px;
-            border-radius: 16px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
         }
 
-        .panel::before, .panel::after {
-            content: '';
-            position: absolute;
-            border: 2px solid var(--accent-primary);
-            z-index: 10;
-            opacity: 0.4;
-        }
-        .panel::before { top: 0; left: 0; width: 50px; height: 50px; border-right: none; border-bottom: none; }
-        .panel::after { bottom: 0; right: 0; width: 50px; height: 50px; border-left: none; border-top: none; }
-
-        h2 { margin-top: 0; color: var(--text-main); text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; }
-        h3 { color: var(--accent-primary); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 15px; }
+        h2 { margin-top: 0; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; margin-bottom: 15px; }
+        h3 { color: var(--accent-primary); margin-top: 0; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 15px; border-bottom: 1px solid var(--panel-border); padding-bottom: 10px; }
 
         .stat-card {
             background: var(--stat-bg);
@@ -120,47 +79,42 @@
             border-radius: 8px;
             border-left: 3px solid var(--accent-primary);
         }
-        .stat-val { font-size: 2.2rem; font-weight: bold; color: var(--accent-primary); display: block; line-height: 1; }
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        .stat-val { font-size: 2rem; font-weight: bold; color: var(--accent-primary); display: block; line-height: 1; }
+        .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
 
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; }
+        label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; }
         
         input, select {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--panel-border);
             color: white;
-            border-radius: 8px;
+            border-radius: 6px;
             box-sizing: border-box;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         input:focus, select:focus {
             outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 15px rgba(199, 125, 255, 0.2);
         }
 
         .btn-calc {
             width: 100%;
-            padding: 18px;
+            padding: 15px;
             background: transparent;
             color: white;
             border: 2px solid var(--accent-primary);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s;
         }
         .btn-calc:hover {
             background: var(--accent-primary);
             color: black;
-            box-shadow: 0 0 25px rgba(199, 125, 255, 0.6);
-            transform: scale(1.02);
         }
 
         #result-area {
@@ -168,227 +122,96 @@
             padding-top: 20px;
             border-top: 1px dashed var(--panel-border);
             display: none;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-display { text-align: center; }
         .result-number {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: 900;
             color: var(--accent-primary);
             line-height: 1;
-            text-shadow: 0 0 30px rgba(199, 125, 255, 0.5);
         }
-        .result-unit { font-size: 1.2rem; color: var(--text-main); vertical-align: middle; }
-
-        .tips-section h3 {
-            border-bottom: 1px solid var(--panel-border);
-            padding-bottom: 10px;
-            color: var(--text-main);
-        }
-
-        .tips-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .tip-item {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-primary);
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            transition: transform 0.2s;
-        }
-        .tip-item:hover { transform: translateX(5px); }
-        .tip-item strong { color: var(--text-main); }
-        .tip-item.good { border-left-color: #4ade80; color: #d1fae5; }
-        .tip-item.bad { border-left-color: #f87171; color: #fca5a5; }
+        .result-unit { font-size: 1rem; color: var(--text-main); }
 
         .analysis-card {
             background: var(--stat-bg);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 6px;
             border-left: 3px solid var(--accent-primary);
         }
-        .analysis-val { font-size: 1.8rem; font-weight: bold; display: block; }
+        .analysis-val { font-size: 1.4rem; font-weight: bold; display: block; }
         .analysis-plus { color: #4ade80; }
         .analysis-minus { color: #f87171; }
-        .analysis-label { font-size: 0.8rem; color: var(--text-muted); }
+        .analysis-label { font-size: 0.75rem; color: var(--text-muted); }
 
         @media (max-width: 900px) {
             .dashboard-grid { grid-template-columns: 1fr; }
-            .panel { border-radius: 0; border: none; padding: 20px; box-shadow: none; }
-            .panel::before, .panel::after { display: none; }
-            .tips-list { grid-template-columns: 1fr; }
-            .logo { font-size: 1.5rem; letter-spacing: 2px; }
+            .panel { border-radius: 0; border: none; padding: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-overlay"></div>
-    <div class="container">
-        <header>
-            <div class="logo">ECO<span>UNIFORM</span></div>
-            <nav>
-                <button>Главная</button>
-                <button class="active">Калькулятор</button>
-                <button>О проекте</button>
-            </nav>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">RU / EN</div>
-        </header>
+    <header>
+        <div class="logo">ECO<span>UNIFORM</span></div>
+        <nav>
+            <button>Главная</button>
+            <button class="active">Калькулятор</button>
+            <button>О проекте</button>
+            <button>Контакты</button>
+        </nav>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">RU / EN</div>
+    </header>
 
-        <div class="dashboard-grid">
-            <aside class="panel">
-                <h3>Статистика проекта</h3>
-                <div class="stat-card">
-                    <span class="stat-val">2.8</span>
-                    <span class="stat-label">Года средний срок службы</span>
+    <div class="dashboard-grid">
+        <!-- Левая панель: Статистика -->
+        <aside class="panel">
+            <h3>Статистика проекта</h3>
+            <div class="stat-card">
+                <span class="stat-val">2.8</span>
+                <span class="stat-label">Года средний срок службы</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-val">73%</span>
+                <span class="stat-label">Экономия ресурсов</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-val">12</span>
+                <span class="stat-label">Единиц одежды в базе</span>
+            </div>
+        </aside>
+
+        <!-- Центр: Калькулятор -->
+        <main class="panel">
+            <h2>Калькулятор срока службы</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                Расчёт срока службы вещей и варианты продления ресурса. Введите параметры для анализа износа ткани.
+            </p>
+
+            <div class="form-group">
+                <label for="baseMonths">Базовый срок службы (мес):</label>
+                <input type="number" id="baseMonths" value="24" min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="washType">Тип ухода за вещью:</label>
+                <select id="washType">
+                    <option value="gentle" selected>Бережный уход (ручная стирка, сушка в тени)</option>
+                    <option value="normal">Обычный уход (машинная стирка)</option>
+                    <option value="harsh">Жёсткий уход (горячая стирка)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="stains">Количество сильных загрязнений в месяц:</label>
+                <input type="number" id="stains" value="1" min="0">
+            </div>
+
+            <button class="btn-calc" onclick="calculateResult()">Рассчитать срок службы</button>
+
+            <div id="result-area">
+                <div class="result-display">
+                    <span class="result-number"><span id="resVal">0</span></span>
+                    <span class="result-unit"> мес.</span>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-val">73%</span>
-                    <span class="stat-label">Экономия ресурсов</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-val">12</span>
-                    <span class="stat-label">Единиц одежды в базе</span>
-                </div>
-            </aside>
-
-            <main class="panel">
-                <h2>Калькулятор срока службы</h2>
-                <p style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;">
-                    Расчёт срока службы вещей и варианты продления ресурса. Введите параметры для анализа износа ткани.
-                </p>
-
-                <div class="form-group">
-                    <label for="baseMonths">Базовый срок службы (мес):</label>
-                    <input type="number" id="baseMonths" value="24" min="1">
-                </div>
-
-                <div class="form-group">
-                    <label for="washType">Тип ухода за вещью:</label>
-                    <select id="washType">
-                        <option value="gentle">Бережный уход (ручная стирка, сушка в тени)</option>
-                        <option value="normal" selected>Обычный уход (машинная стирка 30-40°C)</option>
-                        <option value="harsh">Жёсткий уход (горячая стирка >60°C)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="stains">Количество сильных загрязнений в месяц:</label>
-                    <input type="number" id="stains" value="1" min="0">
-                </div>
-
-                <button class="btn-calc" onclick="calculateResult()">Рассчитать срок службы</button>
-
-                <div id="result-area">
-                    <div class="result-display">
-                        <span class="result-number"><span id="resVal">0</span></span>
-                        <span class="result-unit"> мес.</span>
-                    </div>
-                    <p style="text-align: center; color: var(--text-muted); margin-top: 10px;">
-                        Приблизительный срок службы с учётом износа
-                    </p>
-
-                    <div class="tips-section">
-                        <h3>Рекомендации по продлению ресурса</h3>
-                        <div class="tips-list" id="tips-container">
-                            <!-- Сюда JS вставит советы -->
-                        </div>
-                    </div>
-                </div>
-            </main>
-
-            <aside class="panel">
-                <h3>Аналитика износа</h3>
-                <div class="analysis-card">
-                    <span class="analysis-val analysis-plus">+40%</span>
-                    <span class="analysis-label">При бережном уходе</span>
-                </div>
-                <div class="analysis-card">
-                    <span class="analysis-val analysis-minus">-15%</span>
-                    <span class="analysis-label">При обычной стирке</span>
-                </div>
-                <div class="analysis-card">
-                    <span class="analysis-val analysis-minus">-40%</span>
-                    <span class="analysis-label">При горячей стирке</span>
-                </div>
-
-                <div style="margin-top: 20px; font-size: 0.85rem; color: var(--text-muted);">
-                    Данные основаны на исследовании износа натуральных и синтетических тканей при различных режимах эксплуатации.
-                </div>
-            </aside>
-        </div>
-    </div>
-
-    <script>
-        function calculateResult() {
-            const baseEl = document.getElementById('baseMonths');
-            const washEl = document.getElementById('washType');
-            const stainsEl = document.getElementById('stains');
-
-            const base = parseFloat(baseEl.value) || 24;
-            const wash = washEl.value;
-            const stains = parseInt(stainsEl.value) || 0;
-
-            let finalMonths = base;
-            // ИСПРАВЛЕНО: теперь массив инициализируется корректно
-            const tips = ;
-
-            // Логика по типу ухода
-            if (wash === 'harsh') {
-                finalMonths -= base * 0.40;
-                tips.push('<div class="tip-item bad"><strong>⚠️ Горячая стирка разрушает волокна!</strong> Для готических тканей (бархат, кружево) это критично. Ткань теряет структуру и цвет.</div>');
-                tips.push('<div class="tip-item bad"><strong>❌ Избегайте максимального отжима.</strong> Это деформирует вещь и создает заломы, которые сложно убрать.</div>');
-                tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Если вещь сильно загрязнена, используйте предварительное замачивание в прохладной воде вместо повышения температуры.</div>');
-            } else if (wash === 'normal') {
-                finalMonths -= base * 0.15;
-                tips.push('<div class="tip-item"><strong>⚠️ Машинная стирка допустима,</strong> но старайтесь выбирать деликатный режим или режим "шерсть/шелк".</div>');
-                tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Используйте специальные мешки для стирки. Это защитит фурнитуру, кружево и швы от повреждений.</div>');
-                tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Не набивайте барабан до отказа. Вещи должны свободно двигаться в воде, чтобы лучше отстирываться без трения.</div>');
-            } else {
-                // Бережный уход
-                finalMonths += base * 0.20;
-                tips.push('<div class="tip-item good"><strong>✅ Отличный выбор!</strong> Ручная стирка или аквачистка максимально продлевают жизнь сложным вещам.</div>');
-                tips.push('<div class="tip-item good"><strong>✅ Сушите вещи в горизонтальном положении.</strong> Это предотвратит вытягивание ткани под собственным весом.</div>');
-                tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Храните готическую одежду в чехлах из дышащей ткани, чтобы защитить от пыли и моли.</div>');
-            }
-
-            // Штраф за пятна
-            if (stains > 2) {
-                finalMonths -= (stains * 0.15) * base;
-                tips.push('<div class="tip-item bad"><strong>⚠️ Частые сильные загрязнения ускоряют износ.</strong> Агрессивные пятновыводители и трение истончают ткань.</div>');
-                tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Держите под рукой сухой пятновыводитель для экстренной обработки до того, как пятно въестся в волокна.</div>');
-            } else if (stains === 1 || stains === 2) {
-                finalMonths -= (stains * 0.05) * base;
-                tips.push('<div class="tip-item"><strong>💡 Совет:</strong> Обрабатывайте пятна сразу, не давая им въедаться в ткань. Чем дольше пятно, тем агрессивнее придется действовать.</div>');
-            }
-
-            if (finalMonths < 1) finalMonths = 1;
-
-            document.getElementById('resVal').innerText = Math.floor(finalMonths);
-            document.getElementById('result-area').style.display = 'block';
-            document.getElementById('result-area').scrollIntoView({ behavior: 'smooth' });
-
-            const tipsContainer = document.getElementById('tips-container');
-            tipsContainer.innerHTML = '';
-            tips.forEach(tip => {
-                const div = document.createElement('div');
-                div.innerHTML = tip;
-                tipsContainer.appendChild(div);
-            });
-        }
-    </script>
-</body>
-</html>
+                <p style="text-align: center; color: var(--text-muted);
