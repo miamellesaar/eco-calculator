@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECO-UNIFORM: Калькулятор срока службы</title>
+    <title>ECO-UNIFORM: HUD Calculator</title>
     <style>
         :root {
-            --bg-dark: #121212;
-            --panel-dark: #1E1E26;
-            --panel-mid: #2A2A35;
-            --accent-glow: #6C5B9F; /* Фиолетовый акцент */
-            --accent-border: #8A7CCD;
-            --text-main: #E0E0E0;
-            --text-muted: #A0A0A0;
-            --input-bg: #2A2A35;
-            --border-thin: #333333;
+            --bg-dark: #0F0F12;       /* Почти черный фон */
+            --panel-dark: #1A1A1F;     /* Цвет панелей */
+            --panel-mid: #25252B;       /* Цвет карточек */
+            --accent-glow: #7A5C9F;    /* Фиолетовый акцент */
+            --accent-border: #9A7CCD; /* Светлая обводка */
+            --text-main: #E8E8EB;      /* Светлый текст */
+            --text-muted: #A0A0A8;      /* Серый текст */
+            --border-thin: #333338;    /* Цвет тонких линий */
         }
 
         body {
@@ -22,50 +21,88 @@
             padding: 0;
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            overflow-x: hidden;
         }
 
-        /* Верхняя панель */
+        /* --- ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ (УГОЛКИ И ЛИНИИ) --- */
+        
+        /* Класс для создания уголков (как на прицеле) */
+        .hud-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--accent-border);
+            pointer-events: none;
+            z-index: 10;
+        }
+        .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* Тонкие разделители */
+        .divider-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-thin), transparent);
+            margin: 15px 0;
+        }
+
+        /* --- ОСНОВНЫЕ КОМПОНЕНТЫ --- */
+
         header {
-            background: rgba(20, 20, 25, 0.95);
-            padding: 15px 30px;
+            background: rgba(20, 20, 25, 0.8);
+            padding: 15px 40px;
             border-bottom: 1px solid var(--border-thin);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(5px);
         }
 
         .logo {
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-main);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(122, 92, 159, 0.3);
         }
-
-        .logo span { color: var(--accent-glow); }
 
         .nav-links a {
             color: var(--text-muted);
             text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.9rem;
+            margin-left: 25px;
+            font-size: 0.85rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
         }
-
         .nav-links a:hover { color: var(--text-main); }
 
-        /* Основной контейнер (сетка как на макете) */
+        .lang-btn {
+            border: 1px solid var(--border-thin);
+            padding: 6px 12px;
+            background: var(--panel-dark);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .lang-btn:hover {
+            border-color: var(--accent-border);
+            color: var(--text-main);
+            background: rgba(154, 124, 205, 0.1);
+        }
+
         .dashboard {
             display: grid;
-            grid-template-columns: 250px 1fr 250px;
+            grid-template-columns: 240px 1fr 240px;
             gap: 20px;
             padding: 30px;
             max-width: 1400px;
@@ -74,24 +111,39 @@
             box-sizing: border-box;
         }
 
-        /* Боковые панели (заготовки под будущий контент) */
-        .sidebar {
+        .panel {
             background: var(--panel-dark);
             padding: 20px;
             border-radius: 12px;
             border: 1px solid var(--border-thin);
+            position: relative;
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
-        .sidebar h3 {
+        /* Добавляем уголки на панели */
+        .panel::before, .panel::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border-thin);
+            z-index: 5;
+        }
+        .panel::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .panel::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        .panel h3 {
             color: var(--accent-glow);
             font-size: 0.9rem;
             text-transform: uppercase;
             margin: 0;
             border-bottom: 1px solid var(--border-thin);
             padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .stat-card {
@@ -99,47 +151,61 @@
             padding: 15px;
             border-radius: 8px;
             border-left: 3px solid var(--accent-border);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
         .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.6rem;
+            font-weight: 700;
             color: var(--text-main);
         }
 
         .stat-label {
             font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 5px;
         }
 
-        /* Центральная область калькулятора */
         .main-content {
             background: var(--panel-dark);
             padding: 30px;
             border-radius: 16px;
             border: 1px solid var(--border-thin);
+            position: relative;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
+        /* Уголки для главного блока */
+        .main-content::before, .main-content::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--accent-border);
+            z-index: 10;
+        }
+        .main-content::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .main-content::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+
         .main-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--text-main);
             margin: 0;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .subtitle {
             color: var(--text-muted);
             font-size: 0.9rem;
             margin-bottom: 25px;
+            line-height: 1.4;
         }
 
-        /* Поля ввода в стиле HUD */
-        .form-group { margin-bottom: 15px; }
+        .form-group { margin-bottom: 18px; }
 
         label {
             display: block;
@@ -147,28 +213,28 @@
             color: var(--text-muted);
             font-size: 0.85rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input, select {
             width: 100%;
             padding: 12px 15px;
-            background: var(--input-bg);
+            background: var(--panel-mid);
             border: 1px solid var(--border-thin);
-            border-radius: 8px;
+            border-radius: 6px;
             color: var(--text-main);
             font-size: 1rem;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
         input:focus, select:focus {
             outline: none;
             border-color: var(--accent-border);
-            box-shadow: 0 0 10px rgba(108, 91, 159, 0.2);
-            background: #333;
+            background: #2A2A30;
+            box-shadow: 0 0 15px rgba(122, 92, 159, 0.15);
         }
 
-        /* Кнопка с футуристичным эффектом */
         button {
             width: 100%;
             padding: 16px;
@@ -177,34 +243,22 @@
             border: 1px solid var(--accent-border);
             border-radius: 8px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--accent-glow);
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
         }
 
         button:hover {
+            background: rgba(122, 92, 159, 0.15);
             border-color: var(--text-main);
-            color: var(--bg-dark);
-            box-shadow: 0 0 20px rgba(108, 91, 159, 0.4);
+            box-shadow: 0 0 20px rgba(122, 92, 159, 0.3);
+            transform: scale(1.02);
         }
 
-        button:hover::before { opacity: 1; }
-
-        /* Блок результата */
         .result-box {
             background: var(--panel-mid);
             padding: 20px;
@@ -213,26 +267,38 @@
             text-align: center;
             display: none;
             margin-top: 10px;
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .result-value {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
             color: var(--accent-glow);
             line-height: 1;
         }
 
         .result-unit {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-muted);
             vertical-align: middle;
             font-weight: normal;
         }
 
-        /* Адаптив для мобильных */
         @media (max-width: 900px) {
             .dashboard { grid-template-columns: 1fr; }
-            .sidebar { display: none; } /* Скрываем боковые панели на телефоне для чистоты */
+            .panel, .main-content {
+                /* На телефоне убираем сложные уголки, чтобы не мешали */
+                position: static; 
+            }
+            .panel::before, .panel::after, .main-content::before, .main-content::after {
+                display: none;
+            }
+            .panel { padding: 15px; }
             .main-content { padding: 20px; }
         }
     </style>
@@ -247,11 +313,12 @@
             <a href="#">О проекте</a>
             <a href="#">Контакты</a>
         </nav>
+        <div class="lang-btn">RU / EN</div>
     </header>
 
     <div class="dashboard">
-        <!-- Левая панель (заготовка под статистику или меню) -->
-        <aside class="sidebar">
+        <!-- Левая панель -->
+        <aside class="panel">
             <h3>Статистика проекта</h3>
             <div class="stat-card">
                 <div class="stat-value">2.8</div>
@@ -267,10 +334,13 @@
             </div>
         </aside>
 
-        <!-- Центральная область (калькулятор) -->
+        <!-- Центральная область -->
         <main class="main-content">
             <h2 class="main-title">Калькулятор срока службы</h2>
-            <p class="subtitle">Расчёт срока службы вещей и варианты продления ресурса. Введите параметры для анализа износа.</p>
+            <p class="subtitle">
+                Расчёт срока службы вещей и варианты продления ресурса. 
+                Введите параметры для анализа износа ткани.
+            </p>
 
             <div class="form-group">
                 <label for="baseMonths">Базовый срок службы (мес):</label>
@@ -301,9 +371,9 @@
             </div>
         </main>
 
-        <!-- Правая панель (заготовка под будущий контент: фото одежды, тренды и т.д.) -->
-        <aside class="sidebar">
-            <h3>Аналитика</h3>
+        <!-- Правая панель -->
+        <aside class="panel">
+            <h3>Аналитика износа</h3>
             <div class="stat-card">
                 <div class="stat-value">+40%</div>
                 <div class="stat-label">При бережном уходе</div>
@@ -328,17 +398,14 @@
             let penalty = 0;
             let bonus = 0;
 
-            // Штрафы за тип стирки
             if (washType === 'harsh') {
                 penalty = baseMonths * 0.40; 
             } else if (washType === 'normal') {
                 penalty = baseMonths * 0.15; 
             }
 
-            // Штраф за загрязнения (-1 неделя ~ -0.25 месяца за каждое пятно)
             penalty += stains * 0.25;
 
-            // Бонус за бережный уход (+20%)
             if (washType === 'gentle') {
                 bonus = baseMonths * 0.20;
             }
@@ -347,7 +414,6 @@
 
             if (finalMonths < 1) finalMonths = 1;
 
-            // Вывод результата
             const resultBox = document.getElementById('resultBox');
             const resultValue = document.getElementById('resultValue');
             
