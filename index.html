@@ -3,255 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECO-UNIFORM: Калькулятор</title>
+    <title>ECOUNIFORM — Эко-след школьной формы</title>
     <style>
+        :root {
+            --bg-color: #0f0f13;
+            --card-bg: #1a1a24;
+            --primary-text: #ffffff;
+            --accent: #a855f7; /* фиолетовый */
+            --accent-hover: #9333ea;
+            --stat-value: #a855f7;
+            --stat-label: #a1a1aa;
+        }
+
         body {
             margin: 0;
-            padding: 0;
-            background: #0a0a12;
-            color: #ffffff;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         header {
-            padding: 20px 40px;
-            border-bottom: 1px solid #2a2a35;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 2px;
+        }
+
+        .lang-switch {
+            font-size: 0.9rem;
+            color: var(--stat-label);
+            cursor: pointer;
+        }
+
+        .lang-switch:hover {
+            color: var(--primary-text);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Статистика */
+        .stat-item {
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--stat-value);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--stat-label);
+            font-size: 0.9rem;
+        }
+
+        /* Калькулятор */
+        .calc-group {
+            margin-bottom: 20px;
+        }
+
+        .calc-label {
+            font-size: 0.85rem;
+            color: var(--stat-label);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            background-color: #0f0f13;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .result-display {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .result-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--stat-value);
+        }
+
+        .result-unit {
+            color: var(--stat-label);
+            font-size: 1rem;
+        }
+
+        .advice {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--stat-label);
+            font-style: italic;
+        }
+
+        /* Аналитика */
+        .analysis-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(168, 85, 247, 0.1);
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-        .logo span { color: #c77dff; }
-        .wrap {
-            display: grid;
-            grid-template-columns: 280px 1fr 280px;
-            gap: 20px;
-            padding: 30px;
-            max-width: 1300px;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-        .panel {
-            background: #16161f;
-            border: 1px solid #2a2a35;
-            border-radius: 12px;
-            padding: 25px;
-        }
-        h3 {
-            color: #c77dff;
-            margin: 0 0 15px 0;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-        .card {
-            background: #1f1f2a;
-            border-left: 3px solid #c77dff;
-            border-radius: 6px;
-            padding: 14px;
-            margin-bottom: 12px;
-        }
-        .card b {
-            font-size: 1.6rem;
-            color: #c77dff;
-            display: block;
-        }
-        .card small { color: #a0a0b0; }
-        label {
-            display: block;
-            color: #a0a0b0;
-            font-size: 0.9rem;
-            margin: 20px 0 6px 0;
-        }
-        select {
-            width: 100%;
-            padding: 12px;
-            background: #0d0d14;
-            border: 1px solid #2a2a35;
-            color: white;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 1rem;
-        }
-        /* Ползунки */
-        input[type="range"] {
-            width: 100%;
-            margin-top: 10px;
-            accent-color: #c77dff;
-        }
-        .range-value {
-            color: #c77dff;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        /* Чек-боксы */
-        .checkbox-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 12px 0;
-            cursor: pointer;
-        }
-        .checkbox-row input {
-            width: 18px;
-            height: 18px;
-            accent-color: #c77dff;
-            cursor: pointer;
-        }
-        .checkbox-row span { color: #a0a0b0; font-size: 0.9rem; }
-        .checkbox-row input:checked + span { color: white; }
 
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 25px;
-            background: transparent;
-            border: 2px solid #c77dff;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 1rem;
+        .analysis-percent {
+            font-weight: 700;
+            color: var(--stat-value);
         }
-        button:hover { background: #c77dff; color: #000; }
-        #result {
-            margin-top: 25px;
-            text-align: center;
-            display: none;
-            background: #1f1f2a;
-            border: 1px solid #c77dff;
-            border-radius: 8px;
-            padding: 20px;
+
+        .analysis-desc {
+            color: var(--stat-label);
         }
-        #resVal {
-            font-size: 3rem;
-            font-weight: 900;
-            color: #c77dff;
-        }
-        #tip {
-            color: #a0a0b0;
-            margin-top: 10px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        .result-label {
-            color: #a0a0b0;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-        }
-        @media (max-width: 900px) {
-            .wrap { grid-template-columns: 1fr; padding: 15px; }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .card:first-child, .card:last-child {
+                order: 2;
+            }
+            
+            .card:nth-child(2) {
+                order: 1;
+            }
         }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="logo">ECO<span>UNIFORM</span></div>
-        <div style="color:#a0a0b0; font-size:0.8rem;">RU / EN</div>
+        <div class="logo">ECOUNIFORM</div>
+        <div class="lang-switch">RU / EN</div>
     </header>
 
-    <div class="wrap">
-        <aside class="panel">
-            <h3>Статистика</h3>
-            <div class="card"><b>2.8</b><small>Года средний срок службы</small></div>
-            <div class="card"><b>73%</b><small>Экономия ресурсов</small></div>
-            <div class="card"><b>12</b><small>Единиц одежды в базе</small></div>
-        </aside>
-
-        <main class="panel">
-            <h3>Калькулятор срока службы</h3>
-
-            <label for="type">Тип вещи:</label>
-            <select id="type">
-                <option value="trousers">Брюки</option>
-                <option value="jacket">Пиджак</option>
-                <option value="sundress">Сарафан</option>
-            </select>
-
-            <label>Сколько раз в неделю стираете: <span class="range-value" id="washCountLabel">1</span></label>
-            <input type="range" id="washCount" min="0" max="7" value="1" oninput="document.getElementById('washCountLabel').textContent = this.value">
-
-            <label>Какая температура стирки: <span class="range-value" id="tempLabel">30°C</span></label>
-            <input type="range" id="temp" min="20" max="90" step="10" value="30" oninput="document.getElementById('tempLabel').textContent = this.value + '°C'">
-
-            <label>Уход за вещью:</label>
-            <div class="checkbox-row">
-                <input type="checkbox" id="lint">
-                <span>Пользуетесь машинкой от катышков</span>
+    <div class="container">
+        <!-- Блок Статистика -->
+        <div class="card">
+            <h3 style="margin-top: 0; color: var(--stat-label); text-transform: uppercase; letter-spacing: 1px;">Статистика</h3>
+            <div class="stat-item">
+                <span class="stat-value" id="avg-lifespan">2.8</span>
+                <span class="stat-label">Года средний срок службы</span>
             </div>
-            <div class="checkbox-row">
-                <input type="checkbox" id="mend">
-                <span>Зашиваете мелкие дырки</span>
+            <div class="stat-item">
+                <span class="stat-value">73%</span>
+                <span class="stat-label">Экономия ресурсов</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">12</span>
+                <span class="stat-label">Единиц одежды в базе</span>
+            </div>
+        </div>
+
+        <!-- Блок Калькулятор -->
+        <div class="card">
+            <h3 style="margin-top: 0; color: var(--stat-label); text-transform: uppercase; letter-spacing: 1px;">Калькулятор срока службы</h3>
+            
+            <div class="calc-group">
+                <label class="calc-label">Базовый срок службы (мес):</label>
+                <input type="number" id="base-months" value="24" min="1">
             </div>
 
-            <button onclick="calc()">Рассчитать</button>
-
-            <div id="result">
-                <div class="result-label">Ожидаемый срок службы</div>
-                <span id="resVal">0</span> мес.
-                <p id="tip"></p>
+            <div class="calc-group">
+                <label class="calc-label">Тип ухода:</label>
+                <select id="care-type">
+                    <option value="gentle">Бережный (ручная стирка)</option>
+                    <option value="normal">Обычная стирка</option>
+                    <option value="hot">Горячая стирка</option>
+                </select>
             </div>
-        </main>
 
-        <aside class="panel">
-            <h3>Аналитика</h3>
-            <div class="card"><b>+40%</b><small>При бережном уходе</small></div>
-            <div class="card"><b>-15%</b><small>При обычной стирке</small></div>
-            <div class="card"><b>-40%</b><small>При горячей стирке</small></div>
-        </aside>
+            <div class="calc-group">
+                <label class="calc-label">Загрязнений в месяц:</label>
+                <input type="number" id="stains-per-month" value="1" min="0">
+            </div>
+
+            <button onclick="calculate()">Рассчитать</button>
+
+            <div class="result-display">
+                <div class="result-number" id="result-value">33</div>
+                <div class="result-unit">мес.</div>
+                <div class="advice" id="advice-text">Совет: отличный выбор. Суши вещь в тени, в расправленном виде.</div>
+            </div>
+        </div>
+
+        <!-- Блок Аналитика -->
+        <div class="card">
+            <h3 style="margin-top: 0; color: var(--stat-label); text-transform: uppercase; letter-spacing: 1px;">Аналитика</h3>
+            <div class="analysis-item">
+                <span class="analysis-percent">+40%</span>
+                <span class="analysis-desc">При бережном уходе</span>
+            </div>
+            <div class="analysis-item">
+                <span class="analysis-percent">-15%</span>
+                <span class="analysis-desc">При обычной стирке</span>
+            </div>
+            <div class="analysis-item">
+                <span class="analysis-percent">-40%</span>
+                <span class="analysis-desc">При горячей стирке</span>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Базовый срок службы для каждого типа вещи (в месяцах)
-        var baseLife = {
-            "trousers": 36,
-            "jacket": 48,
-            "sundress": 24
-        };
+        function calculate() {
+            // Получаем данные
+            let base = parseInt(document.getElementById('base-months').value) || 24;
+            const careType = document.getElementById('care-type').value;
+            const stains = parseInt(document.getElementById('stains-per-month').value) || 0;
 
-        function calc() {
-            var type = document.getElementById("type").value;
-            var washCount = parseInt(document.getElementById("washCount").value);
-            var temp = parseInt(document.getElementById("temp").value);
-            var lint = document.getElementById("lint").checked;
-            var mend = document.getElementById("mend").checked;
+            // Логика расчета
+            let result = base;
 
-            var months = baseLife[type];
-
-            // Штраф за частоту стирки: каждая стирка в неделю отнимает 4% от базового срока
-            months = months - months * 0.04 * washCount;
-
-            // Штраф за температуру: каждые 10°C выше 30 отнимают 5%
-            if (temp > 30) {
-                months = months - months * 0.05 * ((temp - 30) / 10);
+            // Коэффициенты из блока "Аналитика"
+            if (careType === 'gentle') {
+                result = Math.round(result * 1.4); // +40%
+            } else if (careType === 'normal') {
+                result = Math.round(result * 0.85); // -15%
+            } else if (careType === 'hot') {
+                result = Math.round(result * 0.6); // -40%
             }
 
-            // Бонусы за уход: машинкой от катышков +10%, зашивание дырок +15%
-            if (lint) months = months * 1.10;
-            if (mend) months = months * 1.15;
+            // Штраф за загрязнения (упрощенно: -1 месяц за каждые 2 загрязнения)
+            result -= Math.floor(stains / 2);
 
-            // Защита от нуля и отрицательных значений
-            if (months < 1) months = 1;
+            // Защита от отрицательных значений
+            if (result < 1) result = 1;
 
             // Вывод результата
-            document.getElementById("resVal").textContent = Math.floor(months);
+            document.getElementById('result-value').innerText = result;
 
-            // Советы в зависимости от ответов
-            var tips = [];
-            if (washCount >= 4) tips.push("Стирайте реже: проветривание и точечная чистка продлевают жизнь вещи.");
-            if (temp > 40) tips.push("Снизьте температуру до 30°C — горячая вода разрушает волокна ткани.");
-            if (!lint) tips.push("Машинка от катышков вернёт вещи опрятный вид и продлит срок службы.");
-            if (!mend) tips.push("Мелкие дырки лучше зашивать сразу — так разрыв не разрастётся.");
-            if (tips.length === 0) tips.push("Отличный уход! Так вещь прослужит максимально долго.");
-
-            document.getElementById("tip").textContent = tips.join(" ");
-            document.getElementById("result").style.display = "block";
+            // Генерация совета
+            const adviceElement = document.getElementById('advice-text');
+            if (careType === 'gentle') {
+                adviceElement.innerText = "Совет: отличный выбор. Суши вещь в тени, в расправленном виде.";
+            } else if (careType === 'hot') {
+                adviceElement.innerText = "Совет: горячая стирка сильно сокращает жизнь ткани. Попробуйте снизить температуру до 30°C.";
+            } else {
+                adviceElement.innerText = "Совет: старайтесь стирать реже и использовать жидкие средства для сохранения цвета.";
+            }
         }
     </script>
 </body>
 </html>
-
