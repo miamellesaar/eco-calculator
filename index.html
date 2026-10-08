@@ -3,215 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECO-UNIFORM: Калькулятор срока службы</title>
+    <title>ECO-UNIFORM: Калькулятор</title>
     <style>
-        :root {
-            --bg-dark: #0a0a12;
-            --panel-bg: rgba(22, 22, 32, 0.92);
-            --panel-border: rgba(255, 255, 255, 0.1);
-            --accent-primary: #c77dff;
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
-            --stat-bg: rgba(255, 255, 255, 0.03);
-        }
-
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text-main);
-            background-color: var(--bg-dark);
-            min-height: 100vh;
+            background: #0a0a12;
+            color: #ffffff;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
-
         header {
+            padding: 20px 40px;
+            border-bottom: 1px solid #2a2a35;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid var(--panel-border);
-            background: var(--panel-bg);
         }
-
         .logo {
             font-size: 1.5rem;
             font-weight: 900;
-            text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--text-main);
         }
-        .logo span { color: var(--accent-primary); }
-
-        nav button {
-            background: transparent;
-            border: 1px solid var(--panel-border);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            margin-left: 10px;
-        }
-        nav button:hover { border-color: var(--accent-primary); color: var(--text-main); }
-
-        .dashboard-grid {
+        .logo span { color: #c77dff; }
+        .wrap {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
             gap: 20px;
             padding: 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+            box-sizing: border-box;
         }
-
         .panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--panel-border);
-            padding: 25px;
+            background: #16161f;
+            border: 1px solid #2a2a35;
             border-radius: 12px;
+            padding: 25px;
         }
-
-        h2 { margin-top: 0; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; margin-bottom: 15px; }
-        h3 { color: var(--accent-primary); margin-top: 0; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 15px; border-bottom: 1px solid var(--panel-border); padding-bottom: 10px; }
-
-        .stat-card {
-            background: var(--stat-bg);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-primary);
+        h3 {
+            color: #c77dff;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
-        .stat-val { font-size: 2rem; font-weight: bold; color: var(--accent-primary); display: block; line-height: 1; }
-        .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
-
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; }
-        
+        .card {
+            background: #1f1f2a;
+            border-left: 3px solid #c77dff;
+            border-radius: 6px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .card b {
+            font-size: 1.6rem;
+            color: #c77dff;
+            display: block;
+        }
+        .card small { color: #a0a0b0; }
+        label {
+            display: block;
+            color: #a0a0b0;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin: 15px 0 6px 0;
+        }
         input, select {
             width: 100%;
             padding: 12px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--panel-border);
+            background: #0d0d14;
+            border: 1px solid #2a2a35;
             color: white;
             border-radius: 6px;
             box-sizing: border-box;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-        }
-
-        .btn-calc {
+        button {
             width: 100%;
             padding: 15px;
+            margin-top: 20px;
             background: transparent;
+            border: 2px solid #c77dff;
             color: white;
-            border: 2px solid var(--accent-primary);
-            font-size: 1rem;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s;
+            border-radius: 6px;
+            font-size: 1rem;
         }
-        .btn-calc:hover {
-            background: var(--accent-primary);
-            color: black;
-        }
-
-        #result-area {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px dashed var(--panel-border);
+        button:hover { background: #c77dff; color: #000; }
+        #result {
+            margin-top: 20px;
+            text-align: center;
             display: none;
         }
-
-        .result-display { text-align: center; }
-        .result-number {
+        #resVal {
             font-size: 3rem;
             font-weight: 900;
-            color: var(--accent-primary);
-            line-height: 1;
+            color: #c77dff;
         }
-        .result-unit { font-size: 1rem; color: var(--text-main); }
-
-        .analysis-card {
-            background: var(--stat-bg);
-            padding: 12px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-primary);
+        #tip {
+            color: #a0a0b0;
+            margin-top: 10px;
         }
-        .analysis-val { font-size: 1.4rem; font-weight: bold; display: block; }
-        .analysis-plus { color: #4ade80; }
-        .analysis-minus { color: #f87171; }
-        .analysis-label { font-size: 0.75rem; color: var(--text-muted); }
-
         @media (max-width: 900px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .panel { border-radius: 0; border: none; padding: 20px; }
+            .wrap { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">ECO<span>UNIFORM</span></div>
-        <nav>
-            <button>Главная</button>
-            <button class="active">Калькулятор</button>
-            <button>О проекте</button>
-            <button>Контакты</button>
-        </nav>
-        <div style="font-size: 0.75rem; color: var(--text-muted);">RU / EN</div>
+        <div style="color:#a0a0b0; font-size:0.8rem;">RU / EN</div>
     </header>
 
-    <div class="dashboard-grid">
-        <!-- Левая панель: Статистика -->
+    <div class="wrap">
         <aside class="panel">
-            <h3>Статистика проекта</h3>
-            <div class="stat-card">
-                <span class="stat-val">2.8</span>
-                <span class="stat-label">Года средний срок службы</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-val">73%</span>
-                <span class="stat-label">Экономия ресурсов</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-val">12</span>
-                <span class="stat-label">Единиц одежды в базе</span>
-            </div>
+            <h3>Статистика</h3>
+            <div class="card"><b>2.8</b><small>Года средний срок службы</small></div>
+            <div class="card"><b>73%</b><small>Экономия ресурсов</small></div>
+            <div class="card"><b>12</b><small>Единиц одежды в базе</small></div>
         </aside>
 
-        <!-- Центр: Калькулятор -->
         <main class="panel">
-            <h2>Калькулятор срока службы</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
-                Расчёт срока службы вещей и варианты продления ресурса. Введите параметры для анализа износа ткани.
-            </p>
+            <h3>Калькулятор срока службы</h3>
 
-            <div class="form-group">
-                <label for="baseMonths">Базовый срок службы (мес):</label>
-                <input type="number" id="baseMonths" value="24" min="1">
+            <label for="base">Базовый срок службы (мес):</label>
+            <input type="number" id="base" value="24" min="1">
+
+            <label for="wash">Тип ухода:</label>
+            <select id="wash">
+                <option value="gentle">Бережный (ручная стирка)</option>
+                <option value="normal">Обычный (машинная стирка)</option>
+                <option value="harsh">Жёсткий (горячая стирка)</option>
+            </select>
+
+            <label for="stains">Загрязнений в месяц:</label>
+            <input type="number" id="stains" value="1" min="0">
+
+            <button onclick="calc()">Рассчитать</button>
+
+            <div id="result">
+                <span id="resVal">0</span> мес.
+                <p id="tip"></p>
             </div>
+        </main>
 
-            <div class="form-group">
-                <label for="washType">Тип ухода за вещью:</label>
-                <select id="washType">
-                    <option value="gentle" selected>Бережный уход (ручная стирка, сушка в тени)</option>
-                    <option value="normal">Обычный уход (машинная стирка)</option>
-                    <option value="harsh">Жёсткий уход (горячая стирка)</option>
-                </select>
-            </div>
+        <aside class="panel">
+            <h3>Аналитика</h3>
+            <div class="card"><b>+40%</b><small>При бережном уходе</small></div>
+            <div class="card"><b>-15%</b><small>При обычной стирке</small></div>
+            <div class="card"><b>-40%</b><small>При горячей стирке</small></div>
+        </aside>
+    </div>
 
-            <div class="form-group">
-                <label for="stains">Количество сильных загрязнений в месяц:</label>
-                <input type="number" id="stains" value="1" min="0">
-            </div>
+    <script>
+        function calc() {
+            var base = parseFloat(document.getElementById("base").value);
+            var wash = document.getElementById("wash").value;
+            var stains = parseInt(document.getElementById("stains").value);
+            if (isNaN(base) || base < 1) base = 24;
+            if (isNaN(stains) || stains < 0) stains = 0;
 
-            <button class="btn-calc" onclick="calculateResult()">Рассчитать срок службы</button>
+            var months = base;
+            var tip = "";
 
-            <div id="result-area">
-                <div class="result-display">
-                    <span class="result-number"><span id="resVal">0</span></span>
-                    <span class="result-unit"> мес.</span>
-                </div>
-                <p style="text-align: center; color: var(--text-muted);
+            if (wash === "harsh") {
+                months = base * 0.6;
+                tip = "Совет: стирай при 30 градусах и не выкручивай вещь.";
+            } else if (wash === "normal") {
+                months = base * 0.85;
+                tip = "Совет: выбирай деликатный режим и мешок для стирки.";
+            } else {
+                months = base * 1.4;
+                tip = "Совет: отличный выбор. Суши вещь в тени, в расправленном виде.";
+            }
+
+            months = months - stains * 0.25;
+            if (months < 1) months = 1;
+
+            document.getElementById("resVal").textContent = Math.floor(months);
+            document.getElementById("tip").textContent = tip;
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+</html>
